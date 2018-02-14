@@ -5,4 +5,4 @@ spring:
     config:
       server:
         git:
-          uri: ${HOME}//git/microservice-configs
+          uri: file:///${user.home}/IdeaProjects/micro-config
