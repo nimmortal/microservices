@@ -1,4 +1,5 @@
 rootProject.name = 'microservices'
 
-include 'configuration-client'
-include 'configuration-server'
+include 'micro-config'
+include 'micro-client'
+include 'micro-discovery'
