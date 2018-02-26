@@ -2,4 +2,5 @@ rootProject.name = 'microservices'
 
 include 'micro-config'
 include 'micro-client'
+include 'micro-server'
 include 'micro-discovery'

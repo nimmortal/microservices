@@ -1,0 +1,20 @@
+server:
+  port: 9000
+
+spring:
+  application:
+    name: server
+  cloud:
+    config:
+      uri: http://localhost:8888
+      fail-fast: true
+  rabbitmq:
+    host: ${bus-service.uri}
+
+management:
+  security:
+    enabled: false
+eureka:
+  client:
+    service-url:
+      defaultZone: ${eureka-service.uri:http://127.0.0.1:8761}/eureka/
