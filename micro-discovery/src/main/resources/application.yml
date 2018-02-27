@@ -1,13 +1,28 @@
-server:
-  port: ${PORT:8761}
 
 spring:
   application:
-    name: service-discovery
+    name: discovery
+  cloud:
+    config:
+      uri: http://localhost:8888
+      fail-fast: true
 
-#eureka:
-#  client:
-#    registerWithEureka: false
-#    fetchRegistry: false
-#    server:
-#      waitTimeInMsWhenSyncEmpty: 0
+---
+server:
+  port: ${PORT:8761}
+spring:
+  profiles: peer1
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: ${eureka-service.uri.peer2}:8762/eureka/
+
+---
+server:
+    port: ${PORT:8762}
+spring:
+  profiles: peer2
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: ${eureka-service.uri.peer1}:8761/eureka/
