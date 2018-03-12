@@ -9,8 +9,6 @@ import org.springframework.cloud.client.loadbalancer.LoadBalanced;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.cloud.netflix.ribbon.RibbonClient;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
@@ -20,17 +18,13 @@ import java.util.stream.Collectors;
 
 @RefreshScope
 @RestController
-@RibbonClient(name = "NumberResource", configuration = ControllerConfiguration.class)
 class ClientRestController {
+
+    @Autowired
+    private ServerClient serverClient;
 
     @Value("${message:Hello default}")
     private String message;
-
-    @LoadBalanced
-    @Bean
-    RestTemplate restTemplate(){
-        return new RestTemplate();
-    }
 
     @Autowired
     private DiscoveryClient discoveryClient;
@@ -42,13 +36,13 @@ class ClientRestController {
 
     @RequestMapping("/action")
     String getPort() {
-        return restTemplate().getForObject("http://server/action", String.class);
+        return serverClient.getPort();
     }
 
-    @RequestMapping("/remote")
-    String remote() {
-        return restTemplate().getForObject("http://numberResource/number", String.class);
-    }
+//    @RequestMapping("/remote")
+//    String remote() {
+//        return restTemplate().getForObject("http://numberResource/number", String.class);
+//    }
 
     @RequestMapping("/instances")
     List<String> defaultMessage() {
@@ -57,23 +51,6 @@ class ClientRestController {
                     return String.format("%s:%d - %s", i.getHost(), i.getPort(), i.getServiceId());
                 })
                 .collect(Collectors.toList());
-    }
-
-}
-
-class ControllerConfiguration {
-
-    @Autowired
-    IClientConfig ribbonClientConfig;
-
-    @Bean
-    public IPing ribbonPing(IClientConfig config) {
-        return new PingUrl();
-    }
-
-    @Bean
-    public IRule ribbonRule(IClientConfig config) {
-        return new RoundRobinRule();
     }
 
 }

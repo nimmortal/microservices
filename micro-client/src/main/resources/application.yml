@@ -8,13 +8,45 @@ spring:
     config:
       uri: http://localhost:8888
       fail-fast: true
+    loadbalancer:
+      retry:
+        enabled: true # Enable spring retry for ribbon
   rabbitmq:
     host: ${bus-service.uri}
 
 management:
   security:
     enabled: false
+
+ribbon:
+  eureka:
+    enabled: true
+  OkToRetryOnAllOperations: true
+  MaxAutoRetries: 1
+  MaxAutoRetriesNextServer: 1
+  ReadTimeout: 1000
+
+
+hystrix:
+  command:
+    default:
+      execution:
+        isolation:
+          thread:
+            timeoutInMilliseconds: 10000
+  metrics:
+    enabled:
+
 eureka:
   client:
     service-url:
       defaultZone: ${eureka-service.uri:http://127.0.0.1:8761}/eureka/
+
+netflix:
+  atlas:
+    uri: http://127.0.0.1:7101
+
+logging:
+  level:
+    com:
+      netflix: DEBUG
