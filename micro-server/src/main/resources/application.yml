@@ -10,11 +10,21 @@ spring:
       fail-fast: true
   rabbitmq:
     host: ${bus-service.uri}
+  jpa:
+    hibernate.ddl-auto: none # Hibernate ddl auto (create, create-drop, validate, update)
+  datasource:
+    url: jdbc:postgresql://192.168.99.100:5432/db
+    username: postgres
+    password: changeme
 
 management:
   security:
     enabled: false
+
 eureka:
   client:
     service-url:
       defaultZone: ${eureka-service.uri:http://127.0.0.1:8761}/eureka/
+
+liquibase:
+  change-log: classpath:db/liquibase-changelog.xml

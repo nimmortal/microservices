@@ -18,6 +18,12 @@ management:
   security:
     enabled: false
 
+eureka:
+  client:
+    service-url:
+      defaultZone: ${eureka-service.uri:http://127.0.0.1:8761}/eureka/
+    register-with-eureka: false # hide client application in DS store
+
 ribbon:
   eureka:
     enabled: true
@@ -37,16 +43,12 @@ hystrix:
   metrics:
     enabled:
 
-eureka:
-  client:
-    service-url:
-      defaultZone: ${eureka-service.uri:http://127.0.0.1:8761}/eureka/
-
 netflix:
   atlas:
+    enabled: false
     uri: http://127.0.0.1:7101
 
 logging:
   level:
     com:
-      netflix: DEBUG
+      netflix: WARN

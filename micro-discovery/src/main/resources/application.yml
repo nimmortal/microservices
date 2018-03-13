@@ -14,8 +14,9 @@ spring:
   profiles: peer1
 eureka:
   client:
-    serviceUrl:
-      defaultZone: ${eureka-service.uri.peer2}:8762/eureka/
+#    serviceUrl:
+#      defaultZone: ${eureka-service.uri.peer2}:8762/eureka/ # replication
+    register-with-eureka: false
 
 ---
 server:
