@@ -12,7 +12,11 @@ spring:
     host: ${bus-service.uri}
   jpa:
     hibernate.ddl-auto: none # Hibernate ddl auto (create, create-drop, validate, update)
+    properties:
+      hibernate:
+        format_sql: true
   datasource:
+    driver-class-name: org.postgresql.Driver
     url: jdbc:postgresql://192.168.99.100:5432/db
     username: postgres
     password: changeme
@@ -28,3 +32,9 @@ eureka:
 
 liquibase:
   change-log: classpath:db/liquibase-changelog.xml
+
+logging:
+  level:
+    org:
+      hibernate:
+        SQL: DEBUG
