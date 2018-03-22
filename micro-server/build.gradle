@@ -4,13 +4,16 @@ buildscript {
 	}
 	repositories {
 		mavenCentral()
+		jcenter()
 	}
 	dependencies {
 		classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+		classpath('se.transmode.gradle:gradle-docker:1.2')
 	}
 }
 
 apply plugin: 'java'
+apply plugin: 'docker'
 apply plugin: 'eclipse'
 apply plugin: 'org.springframework.boot'
 
@@ -44,3 +47,14 @@ dependencyManagement {
 		mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
 	}
 }
+
+//task buildDocker(type: Docker, dependsOn: build) {
+//	applicationName = jar.baseName
+//	dockerfile = file('Dockerfile')
+//	doFirst {
+//		copy {
+//			from jar
+//			into stageDir
+//		}
+//	}
+//}

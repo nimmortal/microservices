@@ -10,7 +10,7 @@ services:
       POSTGRES_PASSWORD: changeme
       PGDATA: /data/postgres
     volumes:
-      - /data/postgres:/data/postgres
+      - ~/IdeaProjects/docker-data/postgres:/data/postgres
     ports:
       - "5432:5432"
 
@@ -19,3 +19,49 @@ services:
     container_name: rabbitmq-cont
     ports:
       - "5672:5672"
+
+  micro-config:
+    container_name: micro-config
+    build: ../micro-config
+    volumes:
+      - ~/IdeaProjects/micro-config:/var/config
+    environment:
+      - JAVA_OPTS=-Dspring.profiles.active=docker
+    ports:
+      - "8888:8888"
+
+  micro-discovery:
+    container_name: micro-discovery
+    build: ../micro-discovery
+    depends_on:
+      - micro-config
+      - rabbitmq
+    environment:
+      - JAVA_OPTS=-Dspring.cloud.config.uri=http://micro-config:8888
+    ports:
+      - "8761:8761"
+
+  micro-server:
+    container_name: micro-server
+    build: ../micro-server
+    depends_on:
+      - micro-config
+      - micro-discovery
+      - postgres
+      - rabbitmq
+    environment:
+      - JAVA_OPTS=-Dspring.cloud.config.uri=http://micro-config:8888
+    ports:
+      - "9000:9000"
+
+  micro-client:
+    container_name: micro-client
+    build: ../micro-client
+    depends_on:
+      - micro-config
+      - micro-discovery
+      - rabbitmq
+    environment:
+      - JAVA_OPTS=-Dspring.cloud.config.uri=http://micro-config:8888
+    ports:
+      - "8000:8000"

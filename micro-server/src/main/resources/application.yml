@@ -6,7 +6,7 @@ spring:
     name: server
   cloud:
     config:
-      uri: http://localhost:8888
+      uri: ${micro.config.uri}
       fail-fast: true
   rabbitmq:
     host: ${bus-service.uri}
@@ -17,7 +17,7 @@ spring:
         format_sql: true
   datasource:
     driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql://192.168.99.100:5432/db
+    url: ${micro.postgres}
     username: postgres
     password: changeme
 
@@ -28,7 +28,7 @@ management:
 eureka:
   client:
     service-url:
-      defaultZone: ${eureka-service.uri:http://127.0.0.1:8761}/eureka/
+      defaultZone: ${micro.eureka.uri:http://127.0.0.1:8761}/eureka/
 
 liquibase:
   change-log: classpath:db/liquibase-changelog.xml

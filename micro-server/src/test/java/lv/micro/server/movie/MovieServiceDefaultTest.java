@@ -14,7 +14,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 @RunWith(SpringRunner.class)
 @ContextConfiguration(classes = ServiceConfiguration.class)
-@TestPropertySource("classpath:test.properties")
+@TestPropertySource("classpath:application.properties")
 @Transactional
 public class MovieServiceDefaultTest {
 

@@ -6,7 +6,7 @@ spring:
     name: client
   cloud:
     config:
-      uri: http://localhost:8888
+      uri: ${micro.config.uri}
       fail-fast: true
     loadbalancer:
       retry:
@@ -21,7 +21,7 @@ management:
 eureka:
   client:
     service-url:
-      defaultZone: ${eureka-service.uri:http://127.0.0.1:8761}/eureka/
+      defaultZone: ${micro.eureka.uri:http://127.0.0.1:8761}/eureka/
     register-with-eureka: false # hide client application in DS store
 
 ribbon:

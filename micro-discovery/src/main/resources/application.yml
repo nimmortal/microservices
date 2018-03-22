@@ -1,4 +1,5 @@
-
+server:
+  port: ${PORT:8761}
 spring:
   application:
     name: discovery
@@ -8,14 +9,12 @@ spring:
       fail-fast: true
 
 ---
-server:
-  port: ${PORT:8761}
 spring:
   profiles: peer1
 eureka:
   client:
-#    serviceUrl:
-#      defaultZone: ${eureka-service.uri.peer2}:8762/eureka/ # replication
+    serviceUrl:
+      defaultZone: ${eureka-service.uri.peer2}:8762/eureka/ # replication
     register-with-eureka: false
 
 ---
